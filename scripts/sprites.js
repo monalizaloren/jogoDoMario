@@ -2,12 +2,19 @@
 
 var mountainImages = [ 'imgs/scene/mountains01.png', 'imgs/scene/mountains02.png', 
 'imgs/scene/mountains03.png', 'imgs/scene/mountains04.png'];
+
 var cloudImages = [ 'imgs/scene/cloud01.png', 'imgs/scene/cloud02.png'];
 var brickImages = [ 'imgs/blocks/blocks001.png', 'imgs/blocks/blocks002.png', 'imgs/blocks/blocks003.png'];
 var coinsImages = [ 'imgs/blocks/coin01.png', 'imgs/blocks/coin05.png' ];
 var pipeImages = [ 'imgs/scene/tube.png' ];
 var platformImages = [ 'imgs/scene/platform.png' ];
 var enemyMushroomImage = [ 'imgs/enemy/enemyMushroom01.png','imgs/enemy/enemyMushroom02.png'];
+
+
+
+
+
+
 
 var spriteNumber={
   mountain: 6,
@@ -19,28 +26,44 @@ var spriteNumber={
 
 }
 
+
+
 function setSprites(){
-  ???
-  ???( mountains, mountainImages, spriteNumber.mountain ,1.5, gameConfig.screenX, gameConfig.screenY-35, gameConfig.screenY-35);
-  ???( clouds, cloudImages, spriteNumber.cloud, 0, gameConfig.screenX, 20, gameConfig.screenY*0.5 );
-  ???( bricks, brickImages, spriteNumber.brick, gameConfig.screenX*0.1, gameConfig.screenX*0.9, gameConfig.screenY*0.1, gameConfig.screenY*0.7 );
-  ???( pipes, pipeImages, spriteNumber.pipe, 50, gameConfig.screenX, gameConfig.screenY-20, gameConfig.screenY+10 );
-  ???( coins, coinsImages, 'shine', spriteNumber.coin, "get", false, 0, gameConfig.screenX, gameConfig.screenY*0.35, gameConfig.screenY*0.75 );
-  ???( ene
+  setSpriteGroups();//Colocar o grupo dos sprites
+  loadStaticObjects( mountains, mountainImages, spriteNumber.mountain ,1.5, gameConfig.screenX, gameConfig.screenY-35, gameConfig.screenY-35);
+  loadStaticObjects( clouds, cloudImages, spriteNumber.cloud, 0, gameConfig.screenX, 20, gameConfig.screenY*0.5 );
+  loadStaticObjects( bricks, brickImages, spriteNumber.brick, gameConfig.screenX*0.1, gameConfig.screenX*0.9, gameConfig.screenY*0.1, gameConfig.screenY*0.7 );
+  loadStaticObjects( pipes, pipeImages, spriteNumber.pipe, 50, gameConfig.screenX, gameConfig.screenY-20, gameConfig.screenY+10 );
+  loadAnimatedObjects( coins, coinsImages, 'shine', spriteNumber.coin, "get", false, 0, gameConfig.screenX, gameConfig.screenY*0.35, gameConfig.screenY*0.75 );
+  loadAnimatedObjects( enemyMushrooms, enemyMushroomImage, 'move', spriteNumber.enemyMushroom, 'live', true, gameConfig.screenX*0.5, gameConfig.screenX, gameConfig.screenY*0.35, gameConfig.screenY*0.75 );
+  loadPlatforms();
 }
 
+
+
+
+
+
+//Esses grupos são importantes porque permitem que o jogo gerencie facilmente a colisão e interação entre os sprites.
+// Além disso, eles também ajudam na organização e na atualização dos sprites na tela. 
 function setSpriteGroups(){
   //groups 
-  bricks = ???
-  enemyMushrooms = ???
-  clouds = ???
-  mountains = ???
-  pipes = ???
-  platforms = ???
-  coins =???
+  bricks = new Group();
+  enemyMushrooms = new Group();
+  clouds = new Group();
+  mountains = new Group();
+  pipes = new Group();
+  platforms = new Group();
+  coins = new Group();
 };
-  
-  ???( group, imageArray, spriteNumber, randomPosStartX, randomPosEndX, randomPosStartY, randomPosEndY) {
+
+
+
+
+
+
+//load static object function
+function loadStaticObjects( group, imageArray, spriteNumber, randomPosStartX, randomPosEndX, randomPosStartY, randomPosEndY) {
   for(var i = 0; i < spriteNumber; i++) {
   
     var randomNumber=floor((random()*10)%imageArray.length);
@@ -51,9 +74,15 @@ function setSpriteGroups(){
    
   }
 };
- 
-  
-  ???( group, imageArray, animationName, spriteNumber, spriteStatusName, spriteStatusValue,  randomPosStartX, randomPosEndX, randomPosStartY, randomPosEndY) {
+
+
+
+
+
+
+
+//load animate object function
+function loadAnimatedObjects( group, imageArray, animationName, spriteNumber, spriteStatusName, spriteStatusValue,  randomPosStartX, randomPosEndX, randomPosStartY, randomPosEndY) {
   for(var i = 0; i < spriteNumber; i++) {
     
     group[i] = createSprite(random(randomPosStartX, randomPosEndX), random(randomPosStartY, randomPosEndY));
@@ -63,8 +92,10 @@ function setSpriteGroups(){
 
   };
 };
-  
- ???{
+
+
+// load platforms
+function loadPlatforms() {
   img=loadImage('imgs/scene/platform.png');
   for(i=0;i<70;i++){
     randomNumber=random();
@@ -76,17 +107,16 @@ function setSpriteGroups(){
     platforms[i].addImage(img);
   };
 };
-  
 
-???{
+
+
+// load Mario animation
+function MarioAnimation(){
   mario=createSprite(gameConfig.startingPointX, gameConfig.startingPointY, gameConfig.startingPoint, 0.30);
-  mario.addAnimation("???",'imgs/mario/mario06.png');
-  mario.addAnimation("???",'imgs/mario/mario01.png','imgs/mario/mario03.png');
-  mario.addAnimation("???",'imgs/mario/mario18.png');
-  mario.addAnimation("???",'imgs/mario/mario05.png');
-  mario.addAnimation("???",'imgs/mario/mario24.png');
+  mario.addAnimation("stand",'imgs/mario/mario06.png');
+  mario.addAnimation("move",'imgs/mario/mario01.png','imgs/mario/mario03.png');
+  mario.addAnimation("crouch",'imgs/mario/mario18.png');
+  mario.addAnimation("jump",'imgs/mario/mario05.png');
+  mario.addAnimation("dead",'imgs/mario/mario24.png');
 };
-
-
-
 
